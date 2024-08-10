@@ -1,0 +1,38 @@
+name: Create Weekly PR from staging to main
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Every Monday at 12:00AM UTC
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Check if staging is ahead of main
+      run: |
+        git fetch origin
+
+        COMMITS_AHEAD = $(git rev-list --pretty=oneline origin/main..origin/staging)
+        
+        if [ -z "$COMMITS_AHEAD" ]; then
+          echo "staging is not ahead of main. No PR will be opened."
+          exit 0
+        fi
+
+        echo "commits_ahead=$COMMITS_AHEAD" >> $GITHUB_OUTPUT
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        base: main
+        head: staging
+        title: 'Weekly PR from staging to main'
+        body: |
+          This PR is automatically created by a GitHub Actions Workflow every Monday at 12:00AM UTC.
+
+          Here are the proposed commits:
+          ${{ steps.check_ahead.outputs.commits_ahead }}
