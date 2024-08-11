@@ -1,13 +1,21 @@
+Tests only refer to commits in main and staging since most recent 
+shared (common ancestor) commit.
+
 Tests for brennenyu/849... Branch Feature:
-    1. main and staging latest commit is same
+    1. Commit history between main and staging are identical.
         Expected: No PR created. Stdout reads “staging is not ahead of main.
         No PR will be opened.” Workflow job terminates early.
         Outcome: PASSED
-    2. main is ahead of staging (i.e. by a “merge staging into main” commit)
-        Expected: Same as Test 1.
+    2. All commits in staging are in main but not all commits in main 
+    are in staging (i.e. main has “merge staging into main” commit).
+        Expected: Same as Test 1. No other side effects.
         Outcome:
-    3. staging is ahead of main
+    3. All commits in main are in staging but not all commits in staging
+     are in main.
         Expected: Open PR created with proposed commits to merge from staging.
         Proposed commits listed from youngest to oldest using --oneline
         formatting.
+        Outcome:
+    4. Not all commits in main are in staging and vice versa.
+        Expected: Same as Test 3. No other side effects.
         Outcome:
