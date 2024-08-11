@@ -16,7 +16,7 @@ jobs:
       run: |
         git fetch origin
 
-        COMMITS_AHEAD=$(git rev-list --pretty=oneline origin/main..origin/staging)
+        COMMITS_AHEAD=$(git rev-list --oneline origin/main..origin/staging)
         
         if [ -z "$COMMITS_AHEAD" ]; then
           echo "staging is not ahead of main. No PR should be created."
