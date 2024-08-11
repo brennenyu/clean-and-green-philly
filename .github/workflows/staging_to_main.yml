@@ -20,12 +20,16 @@ jobs:
         
         if [ -z "$COMMITS_AHEAD" ]; then
           echo "staging is not ahead of main. No PR will be opened."
-          exit 0
+          echo "staging_ahead=false" >> $GITHUB_OUTPUT
+        else
+          echo "staging_ahead=true" >> $GITHUB_ENV
+          echo "commits_ahead=$COMMITS_AHEAD" >> $GITHUB_ENV
         fi
-
-        echo "commits_ahead=$COMMITS_AHEAD" >> $GITHUB_OUTPUT
+        
+        exit 0
 
     - name: Create Pull Request
+      if: env.staging_ahead
       uses: peter-evans/create-pull-request@v4
       with:
         base: main
@@ -35,4 +39,4 @@ jobs:
           This PR is automatically created by a GitHub Actions Workflow every Monday at 12:00AM UTC.
 
           Here are the proposed commits:
-          ${{ steps.check_ahead.outputs.commits_ahead }}
+          ${{ env.commits_ahead }}
