@@ -37,5 +37,5 @@ jobs:
         body: |
           This PR is automatically created by a GitHub Actions Workflow every Monday at 12:00AM UTC.
 
-          Here are the proposed commits:
+          Here are the proposed commits to be merged from staging to main:
           ${{ env.commits_ahead }}
