@@ -25,11 +25,12 @@ jobs:
           echo "staging_ahead=true" >> $GITHUB_ENV
           echo "commits_ahead=$COMMITS_AHEAD" >> $GITHUB_ENV
         fi
-        
-        exit 0
+
+        exit 0 
+        echo "this doesn't print"
 
     - name: Create Pull Request
-#      if: env.staging_ahead
+      if: env.staging_ahead
       uses: peter-evans/create-pull-request@v4
       with:
         base: main
