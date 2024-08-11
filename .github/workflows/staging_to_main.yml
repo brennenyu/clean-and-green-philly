@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 jobs:
-  open-pr:
+  create-pr:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -19,9 +19,10 @@ jobs:
         COMMITS_AHEAD=$(git rev-list --pretty=oneline origin/main..origin/staging)
         
         if [ -z "$COMMITS_AHEAD" ]; then
-          echo "staging is not ahead of main. No PR will be opened."
+          echo "staging is not ahead of main. No PR should be created."
           echo "staging_ahead=false" >> $GITHUB_OUTPUT
         else
+          echo "staging is ahead of main. PR should be created."
           echo "staging_ahead=true" >> $GITHUB_ENV
           echo "commits_ahead=$COMMITS_AHEAD" >> $GITHUB_ENV
         fi
