@@ -2,7 +2,7 @@ Tests for brennenyu/849... Branch Feature:
     1. main and staging latest commit is same
         Expected: No PR created. Stdout reads “staging is not ahead of main.
         No PR will be opened.” Workflow job terminates early.
-        Outcome: PASSED
+        Outcome:
     2. main is ahead of staging (i.e. by a “merge staging into main” commit)
         Expected: Same as Test 1.
         Outcome:
